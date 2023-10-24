@@ -26,6 +26,7 @@ public class LoginController {
     @PostMapping("/login")
     public Sessao logar(@RequestBody Login login){
         User user = repository.findByUsername(login.getUsername());
+
         if(user!=null) {
             boolean passwordOk =  encoder.matches(login.getPassword(), user.getPassword());
             if (!passwordOk) {
@@ -40,6 +41,8 @@ public class LoginController {
             jwtObject.setExpiration((new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION)));
             jwtObject.setRoles(user.getRoles());
             sessao.setToken(JWTCreator.create(SecurityConfig.PREFIX, SecurityConfig.KEY, jwtObject));
+            sessao.setTokenCreated(jwtObject.getIssuedAt());
+            sessao.setTokenExpired(jwtObject.getExpiration());
             return sessao;
         }else {
             throw new RuntimeException("Erro ao tentar fazer login");
