@@ -2,6 +2,8 @@ package dio.springsecurityjwt.controller;
 
 import dio.springsecurityjwt.dto.Login;
 import dio.springsecurityjwt.dto.Sessao;
+import dio.springsecurityjwt.handler.BusinessException;
+import dio.springsecurityjwt.handler.UnauthorizedException;
 import dio.springsecurityjwt.model.User;
 import dio.springsecurityjwt.repository.UserRepository;
 import dio.springsecurityjwt.security.JWTCreator;
@@ -30,7 +32,7 @@ public class LoginController {
         if(user!=null) {
             boolean passwordOk =  encoder.matches(login.getPassword(), user.getPassword());
             if (!passwordOk) {
-                throw new RuntimeException("Senha inválida para o login: " + login.getUsername());
+                throw new UnauthorizedException("Senha inválida para o login: " + login.getUsername());
             }
             //Estamos enviando um objeto Sessão para retornar mais informações do usuário
             Sessao sessao = new Sessao();
@@ -45,7 +47,7 @@ public class LoginController {
             sessao.setTokenExpired(jwtObject.getExpiration());
             return sessao;
         }else {
-            throw new RuntimeException("Erro ao tentar fazer login");
+            throw new UnauthorizedException("O Usuario Não Cadastrado!");
         }
     }
 }

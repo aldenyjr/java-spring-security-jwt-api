@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+import dio.springsecurityjwt.handler.BusinessException;
+import dio.springsecurityjwt.handler.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,11 +23,20 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 public class JWTFilter extends OncePerRequestFilter {
+
+    private HandlerExceptionResolver exceptionResolver;
+
+    @Autowired
+    public JWTFilter(HandlerExceptionResolver exceptionResolver) {
+        this.exceptionResolver = exceptionResolver;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+            throws ServletException, IOException, BusinessException {
         //obtem o token da request com AUTHORIZATION
         String token =  request.getHeader(JWTCreator.HEADER_AUTHORIZATION);
         //esta implementação só esta validando a integridade do token
@@ -48,9 +59,7 @@ public class JWTFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         }catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
-            e.printStackTrace();
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            return;
+            exceptionResolver.resolveException(request, response, null, e);
         }
     }
     private List<SimpleGrantedAuthority> authorities(List<String> roles){
