@@ -34,23 +34,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return responseError;
     }
 
-    @ExceptionHandler({Exception.class})
-    private ResponseEntity<Object> handleGeneral(Exception e, WebRequest request) {
-
-        if(e instanceof ExpiredJwtException){
-            ResponseError error = responseError("UNAUTHORIZED", HttpStatus.UNAUTHORIZED, "Token vencido!");
-            return handleExceptionInternal(e, error, headers(), HttpStatus.UNAUTHORIZED, request);
-        }
-
-        if (e.getClass().isAssignableFrom(UndeclaredThrowableException.class)) {
-            UndeclaredThrowableException exception = (UndeclaredThrowableException) e;
-            return handleBusinessException((BusinessException) exception.getUndeclaredThrowable(), request);
-        } else {
-            String message = messageSource.getMessage("error.server", new Object[]{e.getMessage()}, null);
-            ResponseError error = responseError("INTERNAL_SERVER_ERROR", HttpStatus.INTERNAL_SERVER_ERROR, message);
-            return handleExceptionInternal(e, error, headers(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-        }
-    }
+//    @ExceptionHandler({Exception.class})
+//    private ResponseEntity<Object> handleGeneral(Exception e, WebRequest request) {
+//
+////        if(e instanceof ExpiredJwtException){
+////            ResponseError error = responseError("UNAUTHORIZED", HttpStatus.UNAUTHORIZED, "Token vencido!");
+////            return handleExceptionInternal(e, error, headers(), HttpStatus.UNAUTHORIZED, request);
+////        }
+//
+//        if (e.getClass().isAssignableFrom(UndeclaredThrowableException.class)) {
+//            UndeclaredThrowableException exception = (UndeclaredThrowableException) e;
+//            return handleBusinessException((BusinessException) exception.getUndeclaredThrowable(), request);
+//        } else {
+//            String message = messageSource.getMessage("error.server", new Object[]{e.getMessage()}, null);
+//            ResponseError error = responseError("INTERNAL_SERVER_ERROR", HttpStatus.INTERNAL_SERVER_ERROR, message);
+//            return handleExceptionInternal(e, error, headers(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+//        }
+//    }
 
     @ExceptionHandler({BusinessException.class})
     private ResponseEntity<Object> handleBusinessException(BusinessException e, WebRequest request){

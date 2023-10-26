@@ -2,7 +2,6 @@ package dio.springsecurityjwt.controller;
 
 import dio.springsecurityjwt.dto.Login;
 import dio.springsecurityjwt.dto.Sessao;
-import dio.springsecurityjwt.handler.BusinessException;
 import dio.springsecurityjwt.handler.UnauthorizedException;
 import dio.springsecurityjwt.model.User;
 import dio.springsecurityjwt.repository.UserRepository;
@@ -45,6 +44,7 @@ public class LoginController {
             sessao.setToken(JWTCreator.create(SecurityConfig.PREFIX, SecurityConfig.KEY, jwtObject));
             sessao.setTokenCreated(jwtObject.getIssuedAt());
             sessao.setTokenExpired(jwtObject.getExpiration());
+            sessao.setExpiration(SecurityConfig.EXPIRATION);
             return sessao;
         }else {
             throw new UnauthorizedException("O Usuario Não Cadastrado!");

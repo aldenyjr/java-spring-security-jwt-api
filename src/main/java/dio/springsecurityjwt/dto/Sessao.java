@@ -8,6 +8,7 @@ public class Sessao {
     private String token;
     private Date tokenCreated;
     private Date tokenExpired;
+    private Long expiration;
 
     public String getLogin() {
         return login;
@@ -39,6 +40,14 @@ public class Sessao {
 
     public void setTokenExpired(Date tokenExpired) {
         this.tokenExpired = tokenExpired;
+    }
+
+    public Long getExpiration() {
+        return expiration;
+    }
+
+    public void setExpiration(Long expiration) {
+        this.expiration = expiration;
     }
 
     //getters e setters
