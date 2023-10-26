@@ -1,6 +1,7 @@
 package dio.springsecurityjwt.service;
 
 
+import dio.springsecurityjwt.handler.BusinessException;
 import dio.springsecurityjwt.model.User;
 import dio.springsecurityjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

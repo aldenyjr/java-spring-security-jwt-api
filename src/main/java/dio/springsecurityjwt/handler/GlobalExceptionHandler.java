@@ -52,11 +52,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        }
 //    }
 
-    @ExceptionHandler({BusinessException.class})
-    private ResponseEntity<Object> handleBusinessException(BusinessException e, WebRequest request){
-        ResponseError error = responseError("INTERNAL_SERVER_ERROR", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        return handleExceptionInternal(e, error, headers(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-    }
+//    @ExceptionHandler({BusinessException.class})
+//    private ResponseEntity<Object> handleBusinessException(BusinessException e, WebRequest request){
+//        ResponseError error = responseError("INTERNAL_SERVER_ERROR", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+//        return handleExceptionInternal(e, error, headers(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+//    }
 
     @ExceptionHandler({UnauthorizedException.class})
     private ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException e, WebRequest request){

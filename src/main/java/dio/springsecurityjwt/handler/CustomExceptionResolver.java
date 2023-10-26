@@ -1,5 +1,6 @@
 package dio.springsecurityjwt.handler;
 
+import dio.springsecurityjwt.handler.user.UserException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
